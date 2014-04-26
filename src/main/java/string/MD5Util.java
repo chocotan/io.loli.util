@@ -3,10 +3,10 @@ package string;
 import java.security.MessageDigest;
 
 /**
- * MD5工具类 <br/>
- * User: choco(loli@linux.com) <br/>
- * Date: 2014年4月26日 <br/>
- * Time: 下午3:47:44 <br/>
+ * MD5工具类 <br>
+ * User: choco(loli@linux.com) <br>
+ * Date: 2014年4月26日 <br>
+ * Time: 下午3:47:44 <br>
  * 
  * @author choco
  */

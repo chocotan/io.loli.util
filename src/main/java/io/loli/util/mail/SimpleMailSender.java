@@ -17,10 +17,10 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 /**
- * 不带附件的邮件发送器 <br/>
- * User: choco(loli@linux.com) <br/>
- * Date: 2014年4月26日 <br/>
- * Time: 下午3:47:28 <br/>
+ * 不带附件的邮件发送器 <br>
+ * User: choco(loli@linux.com) <br>
+ * Date: 2014年4月26日 <br>
+ * Time: 下午3:47:28 <br>
  * 
  * @author choco
  */
@@ -30,6 +30,7 @@ public class SimpleMailSender {
      * 
      * @param mailInfo 待发送的邮件的信息
      * @throws UnsupportedEncodingException
+     * @return 是否发送成功
      */
     public boolean sendTextMail(MailSenderInfo mailInfo)
             throws UnsupportedEncodingException {

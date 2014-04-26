@@ -3,10 +3,10 @@ package io.loli.util.mail;
 import java.util.Properties;
 
 /**
- * 发送邮件需要用的基本信息 <br/>
- * User: choco(loli@linux.com) <br/>
- * Date: 2014年4月26日 <br/>
- * Time: 下午3:46:49 <br/>
+ * 发送邮件需要用的基本信息 <br>
+ * User: choco(loli@linux.com) <br>
+ * Date: 2014年4月26日 <br>
+ * Time: 下午3:46:49 <br>
  * 
  * @author choco
  */
@@ -31,7 +31,7 @@ public class MailSenderInfo {
     // 邮件附件的文件名
     private String[] attachFileNames;
 
-    /**
+    /*
      * 获得邮件会话属性
      */
     public Properties getProperties() {
