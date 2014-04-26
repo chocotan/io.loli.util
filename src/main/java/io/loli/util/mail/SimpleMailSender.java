@@ -17,12 +17,24 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 /**
- * 不带附件的邮件发送器 <br>
- * User: choco(loli@linux.com) <br>
- * Date: 2014年4月26日 <br>
- * Time: 下午3:47:28 <br>
+ * 无法添加附件的简单邮件发送<br>
+ * <h2>使用方法
+ * <p>
  * 
- * @author choco
+ * <pre>
+ * <code>
+ * SimpleMailSender sender = new SimpleMailSender();
+ * MailSenderInfo info = buildInfo();
+ * info.setToAddress(mail);
+ * info.setContent(log.getToken());
+ * sender.sendTextMail(info);
+ * </code>
+ * </pre>
+ * 
+ * </p>
+ * 
+ * @author choco (loli@linux.com)
+ * @see MailSenderInfo
  */
 public class SimpleMailSender {
     /**

@@ -3,12 +3,9 @@ package io.loli.util.mail;
 import java.util.Properties;
 
 /**
- * 发送邮件需要用的基本信息 <br>
- * User: choco(loli@linux.com) <br>
- * Date: 2014年4月26日 <br>
- * Time: 下午3:46:49 <br>
+ ** 发送邮件需要用的基本信息
  * 
- * @author choco
+ * @author choco (loli@linux.com)
  */
 public class MailSenderInfo {
     // 发送邮件的服务器的IP和端口
@@ -31,8 +28,20 @@ public class MailSenderInfo {
     // 邮件附件的文件名
     private String[] attachFileNames;
 
-    /*
-     * 获得邮件会话属性
+    /**
+     * 获取邮件发送相关设置的Propertis属性
+     * <p>
+     * 有以下属性<br>
+     * <ul>
+     * <li>mail.smtp.host</li>
+     * <li>mail.smtp.port</li>
+     * <li>mail.smtp.auth</li>
+     * <li>mail.smtp.socketFactory.class</li>
+     * <li>mail.smtp.socketFactory.fallback</li>
+     * </ul>
+     * </p>
+     * 
+     * @return 邮件设置的Properties对象
      */
     public Properties getProperties() {
         String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";

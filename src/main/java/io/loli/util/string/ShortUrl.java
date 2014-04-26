@@ -1,12 +1,9 @@
 package io.loli.util.string;
 
 /**
- * 短地址生成类 <br>
- * User: choco(loli@linux.com) <br>
- * Date: 2014年4月26日 <br>
- * Time: 下午3:48:08 <br>
+ * 短地址生成类
  * 
- * @author choco
+ * @author choco (loli@linux.com)
  */
 public class ShortUrl {
     /**

@@ -3,12 +3,9 @@ package io.loli.util.mail;
 import javax.mail.*;
 
 /**
- * 发送邮件时的验证 <br>
- * User: choco(loli@linux.com) <br>
- * Date: 2014年4月26日 <br>
- * Time: 下午3:46:11 <br>
+ * 存储用户名密码的类
  * 
- * @author choco
+ * @author choco (loli@linux.com)
  */
 public class MyAuthenticator extends Authenticator {
     String userName = null;

@@ -3,12 +3,18 @@ package io.loli.util.string;
 import java.security.MessageDigest;
 
 /**
- * MD5工具类 <br>
- * User: choco(loli@linux.com) <br>
- * Date: 2014年4月26日 <br>
- * Time: 下午3:47:44 <br>
+ * MD5工具类
+ * <p>
  * 
- * @author choco
+ * <pre>
+ * <code>
+ * String md5Str = MD5Util.hash("String to hash");
+ * </code>
+ * </pre>
+ * 
+ * </p>
+ * 
+ * @author choco (loli@linux.com)
  */
 
 public class MD5Util {
