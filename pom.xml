@@ -27,16 +27,16 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:git@github.com:chocotan/java-sc.git</connection>
-        <url>https://github.com/chocotan/choagent.git</url>
-        <developerConnection>scm:git:git@github.com:chocotan/java-sc.git</developerConnection>
+        <connection>scm:git:git@github.com:chocotan/io.loli.util.git</connection>
+        <url>https://github.com/chocotan/io.loli.util.git</url>
+        <developerConnection>scm:git:git@github.com:chocotan/io.loli.util.git</developerConnection>
     </scm>
     <dependencies>
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>1.5.0-b01</version>
-            <scope>provider</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
