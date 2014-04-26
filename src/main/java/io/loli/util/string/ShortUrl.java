@@ -1,4 +1,4 @@
-package string;
+package io.loli.util.string;
 
 /**
  * 短地址生成类 <br>

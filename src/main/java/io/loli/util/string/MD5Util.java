@@ -1,4 +1,4 @@
-package string;
+package io.loli.util.string;
 
 import java.security.MessageDigest;
 
