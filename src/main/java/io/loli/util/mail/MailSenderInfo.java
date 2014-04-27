@@ -29,8 +29,7 @@ public class MailSenderInfo {
     private String[] attachFileNames;
 
     /**
-     * 获取邮件发送相关设置的Propertis属性
-     * <p>
+     * 获取邮件发送相关设置的Propertis属性<br>
      * 有以下属性<br>
      * <ul>
      * <li>mail.smtp.host</li>
@@ -39,7 +38,6 @@ public class MailSenderInfo {
      * <li>mail.smtp.socketFactory.class</li>
      * <li>mail.smtp.socketFactory.fallback</li>
      * </ul>
-     * </p>
      * 
      * @return 邮件设置的Properties对象
      */

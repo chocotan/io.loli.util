@@ -18,8 +18,7 @@ import javax.mail.internet.MimeMultipart;
 
 /**
  * 无法添加附件的简单邮件发送<br>
- * <h2>使用方法
- * <p>
+ * <h2>使用方法</h2>
  * 
  * <pre>
  * <code>
@@ -31,7 +30,7 @@ import javax.mail.internet.MimeMultipart;
  * </code>
  * </pre>
  * 
- * </p>
+ *
  * 
  * @author choco (loli@linux.com)
  * @see MailSenderInfo
@@ -88,6 +87,7 @@ public class SimpleMailSender {
      * 以HTML格式发送邮件
      * 
      * @param mailInfo 待发送的邮件信息
+     * @return 邮件是否发送成功
      */
     public static boolean sendHtmlMail(MailSenderInfo mailInfo) {
         // 判断是否需要身份认证

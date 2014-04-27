@@ -5,7 +5,6 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * MD5工具类
- * <p>
  * 
  * <pre>
  * <code>
@@ -13,7 +12,6 @@ import java.security.NoSuchAlgorithmException;
  * </code>
  * </pre>
  * 
- * </p>
  * 
  * @author choco (loli@linux.com)
  */
