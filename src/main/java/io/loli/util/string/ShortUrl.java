@@ -1,5 +1,7 @@
 package io.loli.util.string;
 
+import java.security.NoSuchAlgorithmException;
+
 /**
  * 短地址生成类
  * 
@@ -22,25 +24,31 @@ public class ShortUrl {
                 "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
                 "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
-        String hex = MD5Util.hash(key + string);
-        int hexLen = hex.length();
-        int subHexLen = hexLen / 8;
-        String[] ShortStr = new String[4];
+        String hex = null;
+        String[] shortStr = new String[4];
+        try {
+            hex = MD5Util.hash(key + string);
+            int hexLen = hex.length();
+            int subHexLen = hexLen / 8;
 
-        for (int i = 0; i < subHexLen; i++) {
-            String outChars = "";
-            int j = i + 1;
-            String subHex = hex.substring(i * 8, j * 8);
-            long idx = Long.valueOf("3FFFFFFF", 16) & Long.valueOf(subHex, 16);
+            for (int i = 0; i < subHexLen; i++) {
+                String outChars = "";
+                int j = i + 1;
+                String subHex = hex.substring(i * 8, j * 8);
+                long idx = Long.valueOf("3FFFFFFF", 16)
+                        & Long.valueOf(subHex, 16);
 
-            for (int k = 0; k < 6; k++) {
-                int index = (int) (Long.valueOf("0000003D", 16) & idx);
-                outChars += chars[index];
-                idx = idx >> 5;
+                for (int k = 0; k < 6; k++) {
+                    int index = (int) (Long.valueOf("0000003D", 16) & idx);
+                    outChars += chars[index];
+                    idx = idx >> 5;
+                }
+                shortStr[i] = outChars;
             }
-            ShortStr[i] = outChars;
+        } catch (NoSuchAlgorithmException e) {
+            shortStr[0] = shortStr[1] = shortStr[2] = shortStr[3] = "";
         }
 
-        return ShortStr;
+        return shortStr;
     }
 }
