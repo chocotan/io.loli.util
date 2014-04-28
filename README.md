@@ -7,7 +7,7 @@ io.loli.util
 <depencency>
   <groupId>io.loli</groupId>
   <artifactId>util</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
 </dependency>
 ```
 具体用法见javadoc
