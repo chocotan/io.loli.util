@@ -76,6 +76,7 @@ public class SimpleMailSender {
         // 设置邮件消息的主要内容
         String mailContent = mailInfo.getContent();
         mailMessage.setText(mailContent);
+        mailMessage.setFrom(new InternetAddress(mailInfo.getFromAddress()));
         // 发送邮件
         Transport.send(mailMessage);
 
