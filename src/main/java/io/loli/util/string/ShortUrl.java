@@ -8,13 +8,32 @@ import java.security.NoSuchAlgorithmException;
  * @author choco (loli@linux.com)
  */
 public class ShortUrl {
+        /**
+     * 默认长度
+     */
+    private static final int DEFAULT_LENGTH = 6;
+
     /**
      * 生成短地址
      * 
-     * @param string 需要hash的字符串
+     * @param string
+     *            需要hash的字符串
      * @return 生成的短地址数组, 一共有四个
      */
     public static String[] shortText(String string) {
+        return shortText(string, DEFAULT_LENGTH);
+    }
+
+    /**
+     * 生成短地址
+     * 
+     * @param string
+     *            需要hash的字符串
+     * @param length
+     *            生成的字符串长度 6<length<11
+     * @return 生成的短地址数组, 一共有四个
+     */
+    public static String[] shortText(String string, int length) {
         // 自定义生成MD5加密字符串前的混合KEY
         String key = String.valueOf(Math.random());
         String[] chars = new String[] { // 要使用生成URL的字符
@@ -38,10 +57,10 @@ public class ShortUrl {
                 long idx = Long.valueOf("3FFFFFFF", 16)
                         & Long.valueOf(subHex, 16);
 
-                for (int k = 0; k < 6; k++) {
+                for (int k = 0; k < length; k++) {
                     int index = (int) (Long.valueOf("0000003D", 16) & idx);
                     outChars += chars[index];
-                    idx = idx >> 5;
+                    idx = idx >> (11 - length);
                 }
                 shortStr[i] = outChars;
             }
