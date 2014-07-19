@@ -30,7 +30,7 @@ public class ShortUrl {
      * @param string
      *            需要hash的字符串
      * @param length
-     *            生成的字符串长度 6<length<11
+     *            生成的字符串长度大于等于6小于等于11
      * @return 生成的短地址数组, 一共有四个
      */
     public static String[] shortText(String string, int length) {
