@@ -1,6 +1,8 @@
-io.loli
+io.loli.util
 
-.util[![Build Status](https://drone.io/github.com/chocotan/io.loli.util/status.png)](https://drone.io/github.com/chocotan/io.loli.util/latest)
+
+
+[![Build Status](https://drone.io/github.com/chocotan/io.loli.util/status.png)](https://drone.io/github.com/chocotan/io.loli.util/latest)
 ============
 这是我个人使用的工具类
 已经发布到maven中央仓库中
