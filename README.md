@@ -13,7 +13,7 @@
 <depencency>
   <groupId>io.loli</groupId>
   <artifactId>util</artifactId>
-  <version>0.0.6</version>
+  <version>0.0.8</version>
 </dependency>
 ```
 具体用法见javadoc
