@@ -37,8 +37,7 @@ public class FileUtils {
         String value = "";
 
         try (FileInputStream in = new FileInputStream(file);) {
-            MappedByteBuffer byteBuffer = in.getChannel().map(FileChannel.MapMode.READ_ONLY, 0,
-                    file.length());
+            MappedByteBuffer byteBuffer = in.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, file.length());
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             md5.update(byteBuffer);
             BigInteger bi = new BigInteger(1, md5.digest());
@@ -48,6 +47,26 @@ public class FileUtils {
         }
         return value;
 
+    }
+
+    /**
+     * 取文件的md5值
+     * 
+     * @param bytes 目标文件的字节数组
+     * @return 该文件的md5值, 小写
+     */
+    public static String md5Hash(byte[] bytes) {
+        String value = "";
+
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            md5.update(bytes);
+            BigInteger bi = new BigInteger(1, md5.digest());
+            value = bi.toString(16);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return value;
     }
 
     /**
