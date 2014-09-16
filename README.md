@@ -13,10 +13,27 @@
 <depencency>
   <groupId>io.loli</groupId>
   <artifactId>util</artifactId>
-  <version>0.0.8</version>
+  <version>0.0.13-SNAPSHOT</version>
 </dependency>
 ```
-具体用法见javadoc
+
+你需要将sonatype snapshot repo添加到pom.xml中
+
+```xml
+<repositories>
+    <repository>
+      <id>snapshots-repo</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+```
+
 
 ###功能
 1. mail包已经被移除， 参见io.loli.util.mail
