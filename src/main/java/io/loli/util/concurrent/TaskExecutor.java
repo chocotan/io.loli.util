@@ -6,7 +6,15 @@ import java.util.concurrent.Executors;
 
 public class TaskExecutor {
 
-    public static ExecutorService service = Executors.newFixedThreadPool(20);
+    public ExecutorService service = null;
+
+    public TaskExecutor() {
+        service = Executors.newFixedThreadPool(20);
+    }
+
+    public TaskExecutor(int threadCount) {
+        service = Executors.newFixedThreadPool(threadCount);
+    }
 
     public void execute(Task task) {
         service.execute(() -> task.execute());
