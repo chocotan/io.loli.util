@@ -2,7 +2,6 @@ package io.loli.util.image;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -11,132 +10,135 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.util.Iterator;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 
 public class ThumbnailUtil {
     public final static int SMALL_SIZE = 150;
     public final static int MIDDLE_SIZE = 300;
     public final static int LARGE_SIZE = 600;
 
+    /**
+     * 按照比例缩放成小图片
+     * 
+     * @param is 该图片输入流
+     * @param format 图片的格式
+     * @return 转换后的图片的输出流
+     * @throws IOException 当文件读取、写入错误时抛出此异常
+     */
     public static OutputStream resizeSmall(InputStream is, String format) throws IOException {
-        return resize(is, SMALL_SIZE, SMALL_SIZE, format);
+        BufferedImage image = ImageIO.read(is);
+        return toOutputStream(resize(image, SMALL_SIZE, SMALL_SIZE, format), format);
     }
 
-    public static OutputStream resize(InputStream is, int thumbWidth, int thumbHeight, String format)
-        throws IOException {
-        BufferedImage image = ImageIO.read(is);
-
-        double thumbRatio = (double) thumbWidth / (double) thumbHeight;
-        int imageWidth = image.getWidth();
-        int imageHeight = image.getHeight();
+    /**
+     * 按照比例缩放图片，如果提供的最大宽高大于原图片宽高，则不缩放
+     * 
+     * @param origin 需要转换的图片
+     * @param maxWidth 缩放的最大宽度
+     * @param maxHeight 缩放的最大高度
+     * @param format 该图片的格式，如jpg, png, gif等等；gif图片只截取第一帧
+     * @return 转换后的图片
+     */
+    public static BufferedImage resize(BufferedImage origin, int maxWidth, int maxHeight, String format) {
+        double thumbRatio = (double) maxWidth / (double) maxHeight;
+        int imageWidth = origin.getWidth();
+        int imageHeight = origin.getHeight();
         double imageRatio = (double) imageWidth / (double) imageHeight;
         if (thumbRatio < imageRatio) {
-            thumbHeight = (int) (thumbWidth / imageRatio);
+            maxHeight = (int) (maxWidth / imageRatio);
         } else {
-            thumbWidth = (int) (thumbHeight * imageRatio);
+            maxWidth = (int) (maxHeight * imageRatio);
         }
 
-        if (imageWidth < thumbWidth && imageHeight < thumbHeight) {
-            thumbWidth = imageWidth;
-            thumbHeight = imageHeight;
-        } else if (imageWidth < thumbWidth)
-            thumbWidth = imageWidth;
-        else if (imageHeight < thumbHeight)
-            thumbHeight = imageHeight;
+        if (imageWidth < maxWidth && imageHeight < maxHeight) {
+            maxWidth = imageWidth;
+            maxHeight = imageHeight;
+        } else if (imageWidth < maxWidth)
+            maxWidth = imageWidth;
+        else if (imageHeight < maxHeight)
+            maxHeight = imageHeight;
 
-        Image img = image.getScaledInstance(thumbWidth, thumbHeight, BufferedImage.SCALE_SMOOTH);
+        Image img = origin.getScaledInstance(maxWidth, maxHeight, BufferedImage.SCALE_SMOOTH);
         BufferedImage bufImg = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
         Graphics g = bufImg.createGraphics();
         g.drawImage(img, 0, 0, null);
         g.dispose();
+        return bufImg;
+    }
+
+    /**
+     * 将图片转为输出流
+     * 
+     * @param image 需要转换的图片
+     * @param format 图片格式
+     * @return 输出流
+     * @throws IOException 当文件读取、写入错误时抛出此异常
+     */
+    public static OutputStream toOutputStream(BufferedImage image, String format) throws IOException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ImageIO.write(bufImg, format, os);
+        try {
+            ImageIO.write(image, format, os);
+        } finally {
+            os.close();
+        }
         return os;
     }
 
-    public static void main(String[] args) throws IOException {
-        Files.write(
-            new File("/tmp/test.png").toPath(),
-            ((ByteArrayOutputStream) cutSqureWithResize(new FileInputStream(
-                "/home/choco/images/weibo/79c1fb50gw1eizrrfj5wdj20qu18bn2q (2).jpg"), 150, 150, "png")).toByteArray());
-    }
-
+    /**
+     * 按照比例缩放成中等大小图片
+     * 
+     * @param is 该图片输入流
+     * @param format 图片的格式
+     * @return 转换后的图片的输出流
+     * @throws IOException 当文件读取、写入错误时抛出此异常
+     */
     public static OutputStream resizeMiddle(InputStream is, String format) throws IOException {
-        return resize(is, MIDDLE_SIZE, MIDDLE_SIZE, format);
+        BufferedImage image = ImageIO.read(is);
+        return toOutputStream(resize(image, MIDDLE_SIZE, MIDDLE_SIZE, format), format);
     }
 
+    /**
+     * 按照比例缩放成大图片
+     * 
+     * @param is 该图片输入流
+     * @param format 图片的格式
+     * @return 转换后的图片的输出流
+     * @throws IOException 当文件读取、写入错误时抛出此异常
+     */
     public static OutputStream resizeBig(InputStream is, String format) throws IOException {
-        return resize(is, MIDDLE_SIZE, SMALL_SIZE, format);
+        BufferedImage image = ImageIO.read(is);
+        return toOutputStream(resize(image, MIDDLE_SIZE, SMALL_SIZE, format), format);
     }
 
-    // 该方法未测试
-    public static OutputStream cut(InputStream is, String format, int x, int y, int width, int height)
-        throws IOException {
-        ImageInputStream iis = ImageIO.createImageInputStream(is);
-        Iterator<ImageReader> itr = ImageIO.getImageReaders(iis);
-        ImageReader reader = itr.next();
-        reader.setInput(iis, true);
-        ImageReadParam param = reader.getDefaultReadParam();
-        Rectangle rect = new Rectangle(x, y, width, height);
-        param.setSourceRegion(rect);
-        BufferedImage bi = reader.read(0, param);
-        // 保存新图片
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ImageIO.write(bi, format, os);
-        return os;
+    /**
+     * 裁剪图片
+     * 
+     * @param image 需要裁剪的图片
+     * @param format 该图片的格式
+     * @param x 起始横坐标
+     * @param y 起始纵坐标
+     * @param width 裁剪部分宽度
+     * @param height 裁剪部分高度
+     * @return 裁剪后的图片
+     */
+    public static BufferedImage cut(BufferedImage image, String format, int x, int y, int width, int height) {
+        BufferedImage img = image.getSubimage(x, y, width, height);
+        return img;
     }
 
+    /**
+     * 将图片在正中裁剪为正方形
+     * 
+     * @param is 该图片的输入流
+     * @param format 该图片的格式
+     * @return 裁剪后的图片的输入流
+     * @throws IOException 当文件读取、写入错误时抛出此异常
+     */
     public static OutputStream cutSqure(InputStream is, String format) throws IOException {
         BufferedImage image = ImageIO.read(is);
         int w = image.getWidth();
         int h = image.getHeight();
-        if (w > h) {
-            int x = (w - h) / 2;
-            int y = 0;
-            int width = h;
-            int height = h;
-            return cut(is, format, x, y, width, height);
-        } else {
-            int x = 0;
-            int y = (h - w) / 2;
-            int width = w;
-            int height = w;
-            return cut(is, format, x, y, width, height);
-        }
-    }
-
-    public static OutputStream cutSqureWithResizeSmall(InputStream is, String format) throws IOException {
-        return cutSqureWithResize(is, SMALL_SIZE, SMALL_SIZE, format);
-    }
-
-    public static OutputStream cutSqureWithResize(InputStream is, int thumbWidth, int thumbHeight, String format)
-        throws IOException {
-        BufferedImage image = ImageIO.read(is);
-
-        double thumbRatio = (double) thumbWidth / (double) thumbHeight;
-        int imageWidth = image.getWidth();
-        int imageHeight = image.getHeight();
-        double imageRatio = (double) imageWidth / (double) imageHeight;
-        if (thumbRatio < imageRatio) {
-            thumbHeight = (int) (thumbWidth / imageRatio);
-        } else {
-            thumbWidth = (int) (thumbHeight * imageRatio);
-        }
-
-        if (imageWidth < thumbWidth && imageHeight < thumbHeight) {
-            thumbWidth = imageWidth;
-            thumbHeight = imageHeight;
-        } else if (imageWidth < thumbWidth)
-            thumbWidth = imageWidth;
-        else if (imageHeight < thumbHeight)
-            thumbHeight = imageHeight;
-        int w = thumbWidth;
-        int h = thumbHeight;
         int x = 0;
         int y = 0;
         int width = 0;
@@ -153,14 +155,83 @@ public class ThumbnailUtil {
             height = w;
         }
 
-        Image img = image.getScaledInstance(thumbWidth, thumbHeight, BufferedImage.SCALE_SMOOTH);
+        return toOutputStream(cut(image, format, x, y, width, height), format);
+    }
+
+    /**
+     * 将图片缩放为小图片并裁剪为正方形
+     * 
+     * @param is 该图片的输入流
+     * @param format 该图片的格式
+     * @return 裁剪后的图片的输入流
+     * @throws IOException 当文件读取、写入错误时抛出此异常
+     */
+    public static OutputStream cutSqureWithResizeSmall(InputStream is, String format) throws IOException {
+        return cutSqureWithResize(is, SMALL_SIZE, SMALL_SIZE, format);
+    }
+
+    /**
+     * 将图片缩放为指定大小并裁剪为正方形
+     * 
+     * @param is 该图片的输入流
+     * @param maxWidth 缩放的最大宽度
+     * @param maxHeight 缩放的最大高度
+     * @param format 该图片的格式，如jpg, png, gif等等；gif图片只截取第一帧
+     * @return 转换后的图片的输出流
+     * @throws IOException 当文件读取、写入错误时抛出此异常
+     */
+    public static OutputStream cutSqureWithResize(InputStream is, int maxWidth, int maxHeight, String format)
+        throws IOException {
+        BufferedImage image = ImageIO.read(is);
+
+        double thumbRatio = (double) maxWidth / (double) maxHeight;
+        int imageWidth = image.getWidth();
+        int imageHeight = image.getHeight();
+        double imageRatio = (double) imageWidth / (double) imageHeight;
+        if (thumbRatio < imageRatio) {
+            maxHeight = (int) (maxWidth / imageRatio);
+        } else {
+            maxWidth = (int) (maxHeight * imageRatio);
+        }
+
+        if (imageWidth < maxWidth && imageHeight < maxHeight) {
+            maxWidth = imageWidth;
+            maxHeight = imageHeight;
+        } else if (imageWidth < maxWidth)
+            maxWidth = imageWidth;
+        else if (imageHeight < maxHeight)
+            maxHeight = imageHeight;
+        int w = maxWidth;
+        int h = maxHeight;
+        int x = 0;
+        int y = 0;
+        int width = 0;
+        int height = 0;
+        if (w > h) {
+            x = (w - h) / 2;
+            y = 0;
+            width = h;
+            height = h;
+        } else {
+            x = 0;
+            y = (h - w) / 2;
+            width = w;
+            height = w;
+        }
+
+        Image img = image.getScaledInstance(maxWidth, maxHeight, BufferedImage.SCALE_SMOOTH);
         BufferedImage bufImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics g = bufImg.createGraphics();
         g.drawImage(img, -x, -y, null);
         g.dispose();
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ImageIO.write(bufImg, format, os);
-        return os;
-
+        return toOutputStream(bufImg, format);
     }
+
+    public static void main(String[] args) throws IOException {
+        Files.write(
+            new File("/tmp/test.png").toPath(),
+            ((ByteArrayOutputStream) cutSqure(new FileInputStream(
+                "/home/choco/images/weibo/79c1fb50gw1eizrrfj5wdj20qu18bn2q (2).jpg"), "jpg")).toByteArray());
+    }
+
 }
