@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 
 import javax.imageio.ImageIO;
@@ -26,7 +25,7 @@ public class ThumbnailUtil {
      * @return 转换后的图片的输出流
      * @throws IOException 当文件读取、写入错误时抛出此异常
      */
-    public static OutputStream resizeSmall(InputStream is, String format) throws IOException {
+    public static ByteArrayOutputStream resizeSmall(InputStream is, String format) throws IOException {
         BufferedImage image = ImageIO.read(is);
         return toOutputStream(resize(image, SMALL_SIZE, SMALL_SIZE, format), format);
     }
@@ -75,7 +74,7 @@ public class ThumbnailUtil {
      * @return 输出流
      * @throws IOException 当文件读取、写入错误时抛出此异常
      */
-    public static OutputStream toOutputStream(BufferedImage image, String format) throws IOException {
+    public static ByteArrayOutputStream toOutputStream(BufferedImage image, String format) throws IOException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         try {
             ImageIO.write(image, format, os);
@@ -93,7 +92,7 @@ public class ThumbnailUtil {
      * @return 转换后的图片的输出流
      * @throws IOException 当文件读取、写入错误时抛出此异常
      */
-    public static OutputStream resizeMiddle(InputStream is, String format) throws IOException {
+    public static ByteArrayOutputStream resizeMiddle(InputStream is, String format) throws IOException {
         BufferedImage image = ImageIO.read(is);
         return toOutputStream(resize(image, MIDDLE_SIZE, MIDDLE_SIZE, format), format);
     }
@@ -106,9 +105,9 @@ public class ThumbnailUtil {
      * @return 转换后的图片的输出流
      * @throws IOException 当文件读取、写入错误时抛出此异常
      */
-    public static OutputStream resizeBig(InputStream is, String format) throws IOException {
+    public static ByteArrayOutputStream resizeBig(InputStream is, String format) throws IOException {
         BufferedImage image = ImageIO.read(is);
-        return toOutputStream(resize(image, MIDDLE_SIZE, SMALL_SIZE, format), format);
+        return toOutputStream(resize(image, LARGE_SIZE, LARGE_SIZE, format), format);
     }
 
     /**
@@ -135,7 +134,7 @@ public class ThumbnailUtil {
      * @return 裁剪后的图片的输入流
      * @throws IOException 当文件读取、写入错误时抛出此异常
      */
-    public static OutputStream cutSqure(InputStream is, String format) throws IOException {
+    public static ByteArrayOutputStream cutSqure(InputStream is, String format) throws IOException {
         BufferedImage image = ImageIO.read(is);
         int w = image.getWidth();
         int h = image.getHeight();
@@ -166,7 +165,7 @@ public class ThumbnailUtil {
      * @return 裁剪后的图片的输入流
      * @throws IOException 当文件读取、写入错误时抛出此异常
      */
-    public static OutputStream cutSqureWithResizeSmall(InputStream is, String format) throws IOException {
+    public static ByteArrayOutputStream cutSqureWithResizeSmall(InputStream is, String format) throws IOException {
         return cutSqureWithResize(is, SMALL_SIZE, SMALL_SIZE, format);
     }
 
@@ -180,7 +179,7 @@ public class ThumbnailUtil {
      * @return 转换后的图片的输出流
      * @throws IOException 当文件读取、写入错误时抛出此异常
      */
-    public static OutputStream cutSqureWithResize(InputStream is, int maxWidth, int maxHeight, String format)
+    public static ByteArrayOutputStream cutSqureWithResize(InputStream is, int maxWidth, int maxHeight, String format)
         throws IOException {
         BufferedImage image = ImageIO.read(is);
 
@@ -218,7 +217,6 @@ public class ThumbnailUtil {
             width = w;
             height = w;
         }
-
         Image img = image.getScaledInstance(maxWidth, maxHeight, BufferedImage.SCALE_SMOOTH);
         BufferedImage bufImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics g = bufImg.createGraphics();
