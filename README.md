@@ -13,12 +13,11 @@
 <depencency>
   <groupId>io.loli</groupId>
   <artifactId>util</artifactId>
-  <version>0.0.13-SNAPSHOT</version>
+  <version>0.0.13</version>
 </dependency>
 ```
 
-你需要将sonatype snapshot repo添加到pom.xml中
-
+如需使用SNAPSHOT版本，则要将sonatype snapshot repo添加到pom.xml中
 ```xml
 <repositories>
     <repository>
