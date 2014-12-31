@@ -3,6 +3,7 @@
 
 
 [![Build Status](https://drone.io/github.com/chocotan/io.loli.util/status.png)](https://drone.io/github.com/chocotan/io.loli.util/latest)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.loli/util/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/io.loli/util)
 
 
 这是我个人使用的工具类
